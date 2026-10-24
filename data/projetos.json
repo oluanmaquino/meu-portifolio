@@ -1,0 +1,64 @@
+{
+  "projects": [
+    {
+      "id": "projeto-questoes",
+      "name": "Projeto Questões",
+      "abbreviation": "PQ",
+      "category": "Educação e tecnologia",
+      "status": "Publicado",
+      "eyebrow": "PLATAFORMA WEB · PROJETO EM FUNCIONAMENTO",
+      "tagline": "Praticar. Revisar. Evoluir.",
+      "summary": "Plataforma de estudos para concursos públicos, com questões organizadas por disciplina, simulados, flashcards e acompanhamento de desempenho.",
+      "description": "O Projeto Questões (PQ) é uma plataforma web responsiva que reúne ferramentas para praticar e revisar conteúdos. A área de estudos disponibiliza questões, acompanhamento de respostas e indicadores de desempenho; a área de administração permite organizar o banco de questões e seus conteúdos.",
+      "technologies": ["HTML5", "CSS3", "JavaScript", "JSON"],
+      "features": [
+        { "title": "Banco de questões", "description": "Organização por disciplinas, assuntos e formatos de resposta." },
+        { "title": "Desempenho do estudante", "description": "Indicadores de respostas, acertos e aproveitamento." },
+        { "title": "Simulados e flashcards", "description": "Recursos para prática e revisão dos conteúdos." },
+        { "title": "Gerenciamento de conteúdo", "description": "Busca, filtros, cadastro e manutenção de questões." },
+        { "title": "Experiência responsiva", "description": "Interface adaptada para celulares e computadores." }
+      ],
+      "urls": {
+        "live": "https://oluanmaquino.github.io/ProjetoQuestoes/",
+        "repository": "https://github.com/oluanmaquino/ProjetoQuestoes"
+      },
+      "images": [
+        {
+          "src": "assets/img/projeto-questoes/desktop-banco.webp",
+          "label": "Banco de questões",
+          "caption": "Área administrativa · banco de questões, busca e filtros",
+          "device": "desktop",
+          "alt": "Captura real do Projeto Questões no computador, mostrando o banco de questões e a área administrativa"
+        },
+        {
+          "src": "assets/img/projeto-questoes/desktop-dashboard.webp",
+          "label": "Painel de desempenho",
+          "caption": "Área de estudos · indicadores e histórico do aluno",
+          "device": "desktop",
+          "alt": "Captura real do dashboard desktop do Projeto Questões com indicadores de desempenho"
+        },
+        {
+          "src": "assets/img/projeto-questoes/mobile-dashboard.webp",
+          "label": "Dashboard no celular",
+          "caption": "Visão geral · experiência para dispositivos móveis",
+          "device": "mobile",
+          "alt": "Captura real da visão geral mobile do Projeto Questões, com indicadores e desempenho por disciplina"
+        },
+        {
+          "src": "assets/img/projeto-questoes/mobile-questoes.webp",
+          "label": "Prática de questões",
+          "caption": "Resolução de questões · alternativas e ação para conferir resposta",
+          "device": "mobile",
+          "alt": "Captura real do Projeto Questões no celular, com questão de informática e alternativas A a E"
+        },
+        {
+          "src": "assets/img/projeto-questoes/mobile-menu.webp",
+          "label": "Navegação mobile",
+          "caption": "Menu lateral · módulos de estudo e administração",
+          "device": "mobile",
+          "alt": "Captura real do menu lateral mobile do Projeto Questões mostrando os módulos da plataforma"
+        }
+      ]
+    }
+  ]
+}

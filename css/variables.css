@@ -1,0 +1,57 @@
+/* PORTFÓLIO 2.0 — Identidade Dark Tech baseada no HTML original. */
+:root {
+  color-scheme: dark;
+  --font-sans: Inter, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', Consolas, 'Courier New', monospace;
+  --bg: #090f19;
+  --bg-raised: #0c1421;
+  --surface: #111c2b;
+  --surface-deep: #0d1623;
+  --surface-soft: #162234;
+  --surface-alt: #1b283a;
+  --card-hover: #17273b;
+  --nav-bg: rgba(9, 15, 25, .84);
+  --text: #eef5ff;
+  --text-soft: #c6d3e2;
+  --muted: #91a2b7;
+  --muted-light: #778ba2;
+  --stroke: rgba(151, 174, 203, .16);
+  --stroke-bold: rgba(154, 177, 206, .28);
+  --blue: #438af6;
+  --blue-hover: #5f9cff;
+  --cyan: #32c0d2;
+  --green: #38d69d;
+  --green-text: #78e0b5;
+  --blue-surface: rgba(67, 138, 246, .12);
+  --green-surface: rgba(56, 214, 157, .11);
+  --shadow: 0 22px 70px rgba(0, 0, 0, .24);
+  --panel-shadow: 0 22px 70px rgba(0, 0, 0, .37);
+  --header-height: 78px;
+  --container: 1180px;
+}
+html[data-theme='light'] {
+  color-scheme: light;
+  --bg: #f5f8fd;
+  --bg-raised: #edf4fc;
+  --surface: #ffffff;
+  --surface-deep: #f0f5fa;
+  --surface-soft: #edf3fa;
+  --surface-alt: #e7eff9;
+  --card-hover: #f3f8ff;
+  --nav-bg: rgba(249, 252, 255, .91);
+  --text: #132237;
+  --text-soft: #344960;
+  --muted: #52677e;
+  --muted-light: #6b7c8c;
+  --stroke: rgba(26, 67, 109, .12);
+  --stroke-bold: rgba(33, 67, 107, .22);
+  --blue: #2268d6;
+  --blue-hover: #0e58cc;
+  --cyan: #00879b;
+  --green: #067954;
+  --green-text: #087a56;
+  --blue-surface: rgba(34, 104, 214, .09);
+  --green-surface: rgba(6, 121, 84, .08);
+  --shadow: 0 15px 55px rgba(41, 81, 127, .10);
+  --panel-shadow: 0 25px 65px rgba(48, 82, 120, .13);
+}
