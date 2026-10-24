@@ -1,14 +1,14 @@
 # Portfólio 2.0 — Luan Aquino
 
-Site estático e responsivo, criado a partir do modelo HTML original, para hospedagem no **GitHub Pages**. A versão inicial apresenta exclusivamente o **Projeto Questões** e utiliza **cinco capturas reais** fornecidas pelo autor.
+Site estático e responsivo, criado a partir do modelo HTML original, para hospedagem no **GitHub Pages**. Esta versão apresenta **Gestão de Obras v0.4.10** como destaque e **Projeto Questões (PQ)** como projeto adicional. Utiliza 12 capturas reais fornecidas pelo autor (7 de Gestão de Obras e 5 de Projeto Questões).
 
 ## O que contém
 
 - Tema claro/escuro, com detecção da preferência do sistema e armazenamento no navegador.
 - Apresentação inicial com bloco de código decorativo, sem foto pessoal.
-- Seções: Início, Sobre mim, Projeto, Tecnologias, Formação e Contato.
-- Galeria com 2 imagens do computador e 3 do celular; filtros e visualizador ampliado.
-- Links reais para o Projeto Questões, seu código no GitHub, e-mail, WhatsApp e Instagram.
+- Seções: Início, Sobre mim, Projetos, Tecnologias, Formação e Contato.
+- Galeria principal de Gestão de Obras com 7 capturas do computador; modal de Projeto Questões com 2 capturas desktop e 3 mobile.
+- Links reais para o Projeto Questões e seu repositório público, e-mail, WhatsApp e Instagram. O Gestão de Obras é local e não recebe link fictício de demonstração ou código.
 - Fundo de partículas discreto, desativado para quem prefere menos movimento.
 - HTML, CSS e JavaScript puro, sem Node.js ou instalação de pacotes.
 - `data/projetos.json` para facilitar a inclusão futura de novos projetos.
@@ -24,7 +24,8 @@ portfolio-luan-v2/
 │   ├── icons/favicon.svg       Ícone do site
 │   └── img/
 │       ├── og-preview.png      Imagem para compartilhamento
-│       └── projeto-questoes/   Cinco capturas reais em WebP
+│       └── gestao-obras/       Sete capturas reais e ícone em WebP
+│       └── projeto-questoes/    Cinco capturas reais em WebP
 ├── css/
 │   ├── variables.css           Paletas dos temas e tipografia
 │   ├── styles.css              Componentes e estilo visual principal
@@ -68,23 +69,27 @@ Todos os caminhos de CSS, JS, dados e imagens são relativos para funcionar em r
 - **Cores claras e escuras:** `css/variables.css`.
 - **Visual de cada seção:** `css/styles.css`.
 - **Layouts de celular:** `css/responsive.css`.
-- **Conteúdo do Projeto Questões:** `data/projetos.json`.
-- **Imagens:** `assets/img/projeto-questoes/`.
+- **Conteúdo dos projetos:** `data/projetos.json`.
+- **Imagens:** `assets/img/gestao-obras/` e `assets/img/projeto-questoes/`.
 
-### Adicionar outro projeto depois
+### Cadastrar mais projetos depois
 
-1. Inclua um novo objeto no array `projects` em `data/projetos.json`, com um `id` diferente de `projeto-questoes`.
-2. Preencha `name`, `category`, `summary`, `technologies`, `urls` e `images`.
-3. Salve as capturas do novo sistema na pasta `assets/img/NOME-DO-PROJETO/` e use os caminhos relativos em `images[].src`.
-4. Publique os arquivos atualizados no GitHub. O site mostrará automaticamente uma seção de projetos adicionais com campo de busca.
+1. Inclua novo objeto em `data/projetos.json` com um `id` único e campos equivalentes aos atuais.
+2. Salve as imagens em `assets/img/NOME-DO-PROJETO/` e referencie pelos caminhos relativos.
+3. Os projetos adicionais aparecerão na grade e poderão abrir um modal com descrições, tecnologias e capturas.
+4. O **projeto principal** é o `gestao-obras`, fixado no destaque HTML. Para trocar o destaque, atualize `index.html` e o ID usado em `js/app.js`.
+5. Para funcionar por duplo clique (`file://`), atualize também a cópia local em `js/projects.js` (em HTTP/HTTPS, a fonte principal é o JSON).
 
-**Importante:** a galeria principal mostra as imagens do projeto de destaque (`projeto-questoes`). Para alterar essa lógica ou transformar um projeto futuro em destaque, edite `index.html` e `js/app.js`.
+## Como foi criado o conteúdo do Gestão de Obras
 
-O modo de visualização por duplo clique possui uma cópia mínima do catálogo de imagens em `js/projects.js`. Quando o site é servido via HTTP/HTTPS, o catálogo é carregado de `data/projetos.json`. Ao alterar o Projeto Questões, se precisar que a prévia por duplo clique também mostre as novas imagens, ajuste o array `offlineImages` em `js/projects.js`.
+- Capturas reais enviadas pelo autor em 24/10/2026 e descrição conferida com `Gestao-de-Obras-v0410.zip`.
+- O arquivo original do programa e seu código **não estão incluídos no portfólio**. Apenas capturas e ícone visual público.
+- Projeto local para Windows com servidor Node.js e persistência SQLite; apresentado como **em desenvolvimento**, não como SaaS público ou serviço pronto para produção.
+- O suporte a janela independente vem de inicializador que tenta Microsoft Edge e Chrome, podendo recorrer ao navegador padrão.
 
 ## Privacidade
 
-Este pacote **não contém o diploma em PDF**, documentos de identidade, códigos de autenticação, dados de clientes, nem imagens de sistemas ainda não selecionados para publicação. Exibe apenas os contatos fornecidos para uso público e os dados acadêmicos essenciais.
+Este pacote **não contém o diploma em PDF**, documentos de identidade, códigos de autenticação, bancos de dados, código-fonte ou executável do Gestão de Obras. Trechos de nomes de clientes nas capturas foram desfocados para preservar a privacidade. Exibe apenas os contatos fornecidos para uso público e os dados acadêmicos essenciais.
 
 ## Checklist antes de publicar
 

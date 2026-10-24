@@ -78,7 +78,7 @@
     }
   });
 
-  // Galeria: 5 capturas reais que foram fornecidas pelo autor.
+  // Galeria principal: 7 capturas reais do Gestão de Obras, fornecidas pelo autor.
   let allImages = [];
   let filteredImages = [];
   let currentIndex = 0;
@@ -203,19 +203,119 @@
     button.addEventListener('click', function () { applyFilter(button.dataset.device); });
   });
 
-  // Quando mais projetos forem incluídos no JSON, mostrar automaticamente a
-  // grade complementar. Cria nós DOM com textContent, sem injetar HTML externo.
+  // Grade complementar: projetos cadastrados no mesmo JSON do destaque.
+  // O projeto secundário abre um painel com galeria própria, sem esconder o principal.
   const otherContainer = $('#future-projects');
   const grid = $('#future-project-list');
   const search = $('#project-search');
   const empty = $('#project-empty');
   let others = [];
+  const detailsDialog = $('#project-dialog');
+  const detailThumbs = $('#detail-thumbnails');
+  let openProjectData = null;
+  let detailIndex = 0;
+  let detailsPreviousFocus = null;
+
   function trustedUrl(url) {
     try {
       const u = new URL(url);
       return ['https:', 'http:'].includes(u.protocol) ? u.href : null;
     } catch (_) { return null; }
   }
+
+  function addExternalButton(container, url, label, primary) {
+    const href = trustedUrl(url);
+    if (!href) return;
+    const link = document.createElement('a');
+    link.href = href;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.className = 'button ' + (primary ? 'button-primary' : 'button-outline');
+    link.textContent = label;
+    container.append(link);
+  }
+
+  function showDetailImage(index) {
+    if (!openProjectData || !Array.isArray(openProjectData.images) || !openProjectData.images.length) return;
+    const images = openProjectData.images;
+    detailIndex = (index + images.length) % images.length;
+    const current = images[detailIndex];
+    const image = $('#detail-image');
+    image.src = current.src;
+    image.alt = current.alt || ('Captura do projeto ' + openProjectData.name);
+    $('#detail-image-label').textContent = current.label + (current.caption ? ' · ' + current.caption : '');
+    $('#detail-counter').textContent = (detailIndex + 1) + ' / ' + images.length;
+    Array.from(detailThumbs.children).forEach(function (child, i) {
+      child.setAttribute('aria-pressed', String(i === detailIndex));
+    });
+  }
+
+  function openProjectDetails(project) {
+    detailsPreviousFocus = document.activeElement;
+    openProjectData = project;
+    $('#detail-category').textContent = (project.category || 'PROJETO').toLocaleUpperCase('pt-BR');
+    $('#detail-project-title').textContent = project.name || 'Projeto';
+    $('#detail-description').textContent = project.description || project.summary || '';
+    const tags = $('#detail-tags');
+    tags.replaceChildren();
+    (project.technologies || []).forEach(function (tech) {
+      const span = document.createElement('span');
+      span.textContent = tech;
+      tags.append(span);
+    });
+    const features = $('#detail-features');
+    features.replaceChildren();
+    (project.features || []).forEach(function (feature) {
+      const card = document.createElement('article');
+      const heading = document.createElement('h4');
+      heading.textContent = feature.title || '';
+      const paragraph = document.createElement('p');
+      paragraph.textContent = feature.description || '';
+      card.append(heading, paragraph);
+      features.append(card);
+    });
+    const links = $('#detail-links');
+    links.replaceChildren();
+    addExternalButton(links, project.urls && project.urls.live, 'Acessar plataforma ↗', true);
+    addExternalButton(links, project.urls && project.urls.repository, 'Ver código no GitHub ↗', false);
+    detailThumbs.replaceChildren();
+    (project.images || []).forEach(function (item, i) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.setAttribute('aria-label', 'Mostrar captura: ' + item.label);
+      const image = document.createElement('img');
+      image.src = item.src;
+      image.alt = '';
+      image.loading = 'lazy';
+      const text = document.createElement('span');
+      text.textContent = item.label;
+      button.append(image, text);
+      button.addEventListener('click', function () { showDetailImage(i); });
+      detailThumbs.append(button);
+    });
+    const haveImages = (project.images || []).length > 0;
+    $('.project-dialog-gallery').hidden = !haveImages;
+    if (haveImages) showDetailImage(0);
+    if (typeof detailsDialog.showModal === 'function') detailsDialog.showModal();
+    else detailsDialog.setAttribute('open', '');
+    $('#project-dialog-close').focus();
+  }
+  function closeDetails() {
+    if (typeof detailsDialog.close === 'function') detailsDialog.close();
+    else detailsDialog.removeAttribute('open');
+  }
+  $('#project-dialog-close').addEventListener('click', closeDetails);
+  $('#detail-prev').addEventListener('click', function () { showDetailImage(detailIndex - 1); });
+  $('#detail-next').addEventListener('click', function () { showDetailImage(detailIndex + 1); });
+  detailsDialog.addEventListener('click', function (event) { if (event.target === detailsDialog) closeDetails(); });
+  detailsDialog.addEventListener('keydown', function (event) {
+    if (event.key === 'ArrowLeft') { event.preventDefault(); showDetailImage(detailIndex - 1); }
+    if (event.key === 'ArrowRight') { event.preventDefault(); showDetailImage(detailIndex + 1); }
+  });
+  detailsDialog.addEventListener('close', function () {
+    if (detailsPreviousFocus && detailsPreviousFocus.isConnected) detailsPreviousFocus.focus();
+  });
+
   function renderOthers(query) {
     grid.replaceChildren();
     const term = query.trim().toLocaleLowerCase('pt-BR');
@@ -229,42 +329,50 @@
       card.className = 'future-card';
       const first = Array.isArray(project.images) && project.images[0];
       if (first && first.src) {
-        const img = document.createElement('img');
-        img.src = first.src;
-        img.alt = first.alt || ('Captura do sistema ' + project.name);
-        img.loading = 'lazy';
-        card.append(img);
+        const image = document.createElement('img');
+        image.src = first.src;
+        image.alt = first.alt || ('Captura do sistema ' + project.name);
+        image.loading = 'lazy';
+        card.append(image);
       }
       const content = document.createElement('div');
       content.className = 'future-card-content';
       const category = document.createElement('span');
       category.className = 'micro-label';
-      category.textContent = project.category || 'Projeto';
+      category.textContent = (project.category || 'Projeto').toLocaleUpperCase('pt-BR');
       const heading = document.createElement('h4');
       heading.textContent = project.name || 'Projeto sem nome';
       const description = document.createElement('p');
       description.textContent = project.summary || '';
-      content.append(category, heading, description);
-      if (project.urls && trustedUrl(project.urls.live)) {
-        const link = document.createElement('a');
-        link.href = trustedUrl(project.urls.live);
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-        link.textContent = 'Abrir projeto ↗';
-        content.append(link);
-      }
+      const technologies = document.createElement('div');
+      technologies.className = 'project-mini-tech';
+      (project.technologies || []).forEach(function (tech) {
+        const span = document.createElement('span');
+        span.textContent = tech;
+        technologies.append(span);
+      });
+      const actions = document.createElement('div');
+      actions.className = 'future-card-actions';
+      const detailButton = document.createElement('button');
+      detailButton.type = 'button';
+      detailButton.className = 'button button-primary';
+      detailButton.textContent = 'Ver detalhes e imagens';
+      detailButton.addEventListener('click', function () { openProjectDetails(project); });
+      actions.append(detailButton);
+      addExternalButton(actions, project.urls && project.urls.live, 'Acessar plataforma ↗', false);
+      content.append(category, heading, description, technologies, actions);
       card.append(content);
       grid.append(card);
     });
   }
   search.addEventListener('input', function () { renderOthers(search.value); });
 
-  // Carrega o catálogo com fallback para index.html aberto por duplo clique.
+  // Catálogo HTTP/HTTPS com cópia local para duplo clique no arquivo HTML.
   window.SiteProjects.load().then(function (projects) {
-    const mainProject = projects.find(function (project) { return project.id === 'projeto-questoes'; }) || projects[0];
+    const mainProject = projects.find(function (project) { return project.id === 'gestao-obras'; }) || projects[0];
     allImages = Array.isArray(mainProject.images) ? mainProject.images : [];
     applyFilter('all');
-    $('#project-total').textContent = String(projects.length).padStart(2, '0') + (projects.length === 1 ? ' PROJETO PUBLICADO' : ' PROJETOS CADASTRADOS');
+    $('#project-total').textContent = String(projects.length).padStart(2, '0') + (projects.length === 1 ? ' PROJETO NO PORTFÓLIO' : ' PROJETOS NO PORTFÓLIO');
     others = projects.filter(function (project) { return project.id !== mainProject.id; });
     if (others.length > 0) {
       otherContainer.hidden = false;
